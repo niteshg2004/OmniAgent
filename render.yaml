@@ -5,10 +5,8 @@ services:
     dockerfilePath: ./backend/Dockerfile
     dockerContext: ./backend
     plan: free
-    # Force Render to map the internal port correctly
+    healthCheckPath: /health
     envVars:
-      - key: PORT
-        value: "10000"
       - key: your_groq_api_key_here
         sync: false
       - key: GROQ_MODEL
@@ -21,16 +19,3 @@ services:
         value: INFO
       - key: WHISPER_MODEL_SIZE
         value: base
-
-  - type: web
-    name: omniagent-web
-    runtime: docker
-    dockerfilePath: ./frontend/Dockerfile
-    dockerContext: ./frontend
-    plan: free
-    envVars:
-      - key: NEXT_PUBLIC_API_URL
-        fromService:
-          name: OmniAgent-2
-          type: web
-          property: host
