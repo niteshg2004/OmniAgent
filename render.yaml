@@ -1,12 +1,14 @@
 services:
   - type: web
-    name: omniagent-api
+    name: OmniAgent-2
     runtime: docker
     dockerfilePath: ./backend/Dockerfile
     dockerContext: ./backend
     plan: free
-    healthCheckPath: /health
+    # Force Render to map the internal port correctly
     envVars:
+      - key: PORT
+        value: "10000"
       - key: your_groq_api_key_here
         sync: false
       - key: GROQ_MODEL
@@ -29,31 +31,6 @@ services:
     envVars:
       - key: NEXT_PUBLIC_API_URL
         fromService:
-          name: omniagent-api
+          name: OmniAgent-2
           type: web
           property: host
-# Health check
-curl http://127.0.0.1:8000/health
-
-# Upload a PDF
-curl -X POST -F "file=@document.pdf" http://127.0.0.1:8000/api/v1/upload
-
-# Upload an image
-curl -X POST -F "file=@screenshot.png" http://127.0.0.1:8000/api/v1/upload# Health check
-curl http://127.0.0.1:8000/health
-
-# Upload a PDF
-curl -X POST -F "file=@document.pdf" http://127.0.0.1:8000/api/v1/upload
-
-# Upload an image
-curl -X POST -F "file=@screenshot.png" http://127.0.0.1:8000/api/v1/upload# Simple check (returns status code 200 if running)
-curl -o /dev/null -s -w "%{http_code}\n" http://127.0.0.1:8000/health
-
-# Response codes:
-# 200 = Running 
-# Connection refused = Not running # Simple check (returns status code 200 if running)
-curl -o /dev/null -s -w "%{http_code}\n" http://127.0.0.1:8000/health
-
-# Response codes:
-# 200 = Running 
-# Connection refused = Not running 
