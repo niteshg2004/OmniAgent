@@ -50,10 +50,10 @@ curl -X POST -F "file=@screenshot.png" http://127.0.0.1:8000/api/v1/upload# Simp
 curl -o /dev/null -s -w "%{http_code}\n" http://127.0.0.1:8000/health
 
 # Response codes:
-# 200 = Running ✅
-# Connection refused = Not running ❌# Simple check (returns status code 200 if running)
+# 200 = Running 
+# Connection refused = Not running # Simple check (returns status code 200 if running)
 curl -o /dev/null -s -w "%{http_code}\n" http://127.0.0.1:8000/health
 
 # Response codes:
-# 200 = Running ✅
-# Connection refused = Not running ❌
+# 200 = Running 
+# Connection refused = Not running 
