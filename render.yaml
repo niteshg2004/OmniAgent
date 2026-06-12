@@ -7,7 +7,7 @@ services:
     plan: free
     healthCheckPath: /health
     envVars:
-      - key: grod_api_key
+      - key: GROQ_API_KEY
         sync: false
       - key: GROQ_MODEL
         value: llama-3.3-70b-versatile

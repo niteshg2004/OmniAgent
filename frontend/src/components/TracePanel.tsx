@@ -176,16 +176,16 @@ export function TracePanel({ trace, metadata }: TracePanelProps) {
         )}
 
         {/* Cost Information */}
-        {metadata?.cost_usd && (
+        {typeof metadata?.cost_usd === "number" && (
           <div className="mt-4 pt-4 border-t border-gray-200">
             <div className="flex items-center justify-between rounded-md bg-blue-50 px-3 py-2 text-sm">
               <span className="text-gray-700">Total API Cost:</span>
               <span className="font-mono font-semibold text-blue-600">
-                ${(metadata.cost_usd as number).toFixed(6)}
+                ${metadata.cost_usd.toFixed(6)}
               </span>
             </div>
-            {metadata.cost_breakdown &&
-              typeof metadata.cost_breakdown === "object" && (
+            {typeof metadata.cost_breakdown === "object" &&
+              metadata.cost_breakdown !== null && (
                 <div className="mt-2 space-y-1 text-xs">
                   {Object.entries(metadata.cost_breakdown).map(([tool, cost]) => (
                     <div key={tool} className="flex justify-between text-gray-600">
