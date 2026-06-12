@@ -1,14 +1,14 @@
 services:
   - type: web
-    name: OmniAgent-2
+    name: omniagent-api
     runtime: docker
     dockerfilePath: ./backend/Dockerfile
     dockerContext: ./backend
     plan: free
     healthCheckPath: /health
     envVars:
-      - key: your_groq_api_key_here
-        sync: false
+      - key: grod_api_key
+        sync:false
       - key: GROQ_MODEL
         value: llama-3.3-70b-versatile
       - key: CORS_ORIGINS
@@ -19,3 +19,41 @@ services:
         value: INFO
       - key: WHISPER_MODEL_SIZE
         value: base
+
+  - type: web
+    name: omniagent-web
+    runtime: docker
+    dockerfilePath: ./frontend/Dockerfile
+    dockerContext: ./frontend
+    plan: free
+    envVars:
+      - key: NEXT_PUBLIC_API_URL
+        fromService:
+          name: omniagent-api
+          type: web
+          property: host
+# Health check
+curl http://127.0.0.1:8000/health
+
+# Upload a PDF
+curl -X POST -F "file=@document.pdf" http://127.0.0.1:8000/api/v1/upload
+
+# Upload an image
+curl -X POST -F "file=@screenshot.png" http://127.0.0.1:8000/api/v1/upload# Health check
+curl http://127.0.0.1:8000/health
+
+# Upload a PDF
+curl -X POST -F "file=@document.pdf" http://127.0.0.1:8000/api/v1/upload
+
+# Upload an image
+curl -X POST -F "file=@screenshot.png" http://127.0.0.1:8000/api/v1/upload# Simple check (returns status code 200 if running)
+curl -o /dev/null -s -w "%{http_code}\n" http://127.0.0.1:8000/health
+
+# Response codes:
+# 200 = Running ✅
+# Connection refused = Not running ❌# Simple check (returns status code 200 if running)
+curl -o /dev/null -s -w "%{http_code}\n" http://127.0.0.1:8000/health
+
+# Response codes:
+# 200 = Running ✅
+# Connection refused = Not running ❌
