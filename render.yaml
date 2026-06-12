@@ -8,7 +8,7 @@ services:
     healthCheckPath: /health
     envVars:
       - key: grod_api_key
-        sync:false
+        sync: false
       - key: GROQ_MODEL
         value: llama-3.3-70b-versatile
       - key: CORS_ORIGINS
