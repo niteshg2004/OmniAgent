@@ -1,7 +1,12 @@
 import type { NextConfig } from "next";
 
 /** Backend URL used by Next.js server-side rewrites (not exposed to the browser). */
-const backendUrl = process.env.BACKEND_URL ?? "http://127.0.0.1:8000";
+const backendHost = process.env.BACKEND_HOST ?? process.env.BACKEND_URL ?? "127.0.0.1:8000";
+const backendUrl = backendHost.startsWith("http")
+  ? backendHost
+  : backendHost.includes(":")
+    ? `http://${backendHost}`
+    : `http://${backendHost}:8000`;
 
 const nextConfig: NextConfig = {
   output: "standalone",
